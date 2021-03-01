@@ -11,11 +11,11 @@ export default class OrdersController {
 
     const findOrder = container.resolve(FindOrderService);
 
-    const order = await findOrder.execute({
+    const customer = await findOrder.execute({
       id,
     });
 
-    return response.json(order);
+    return response.json(customer);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

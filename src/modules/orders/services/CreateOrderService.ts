@@ -18,7 +18,7 @@ interface IRequest {
 }
 
 @injectable()
-class CreateOrderService {
+class CreateProductService {
   constructor(
     @inject('OrdersRepository')
     private ordersRepository: IOrdersRepository,
@@ -57,7 +57,7 @@ class CreateOrderService {
 
     const findProductsWithNoQuantityAvailable = products.filter(
       product =>
-        existentProducts.filter(p => p.id === product.id)[0].quantity <
+        existentProducts.filter(p => p.id === product.id)[0].quantity <=
         product.quantity,
     );
 
@@ -67,7 +67,7 @@ class CreateOrderService {
       );
     }
 
-    const serializedProducts = products.map(product => ({
+    const formattedProducts = products.map(product => ({
       product_id: product.id,
       quantity: product.quantity,
       price: existentProducts.filter(p => p.id === product.id)[0].price,
@@ -75,7 +75,7 @@ class CreateOrderService {
 
     const order = await this.ordersRepository.create({
       customer: customerExists,
-      products: serializedProducts,
+      products: formattedProducts,
     });
 
     const { order_products } = order;
@@ -93,4 +93,4 @@ class CreateOrderService {
   }
 }
 
-export default CreateOrderService;
+export default CreateProductService;
